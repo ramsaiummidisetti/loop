@@ -123,164 +123,205 @@ export default async function DashboardPage() {
     };
   }
 
-  return (
-    <main className="min-h-screen bg-slate-50 px-6 py-10">
-      <div className="mx-auto max-w-6xl">
-        <header className="mb-8 flex items-start justify-between gap-4">
+    return (
+    <main className="min-h-screen bg-slate-50">
+      {/* Header */}
+      <header className="border-b border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-slate-500">
-              LOOP
-            </p>
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-sm font-bold text-white shadow-sm">
+                L
+              </div>
 
-            <h1 className="mt-2 text-3xl font-bold text-slate-900">
-              Dashboard
-            </h1>
-
-            <p className="mt-2 text-slate-600">
-              Welcome back, {session.user.name || session.user.email}.
-            </p>
+              <div>
+                <p className="text-sm font-bold tracking-wide text-slate-900">
+                  LOOP
+                </p>
+                <p className="text-xs text-slate-500">
+                  Feedback Intelligence Platform
+                </p>
+              </div>
+            </div>
           </div>
 
           <LogoutButton />
-        </header>
+        </div>
+      </header>
+
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {/* Welcome */}
+        <section className="mb-8">
+          <div className="flex flex-col justify-between gap-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:flex-row sm:items-center">
+            <div>
+              <p className="text-sm font-medium text-slate-500">
+                Dashboard
+              </p>
+
+              <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                Welcome back, {session.user.name || session.user.email}
+              </h1>
+
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+                Monitor customer feedback, understand sentiment, and turn
+                feedback into actionable insights.
+              </p>
+            </div>
+
+            <a
+              href="/dashboard/feedback"
+              className="inline-flex shrink-0 items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
+            >
+              View Feedback
+              <span className="ml-2">→</span>
+            </a>
+          </div>
+        </section>
 
         {/* Main Metrics */}
         <section className="mb-8">
-          <h2 className="mb-4 text-xl font-semibold text-slate-900">
-            Feedback Overview
-          </h2>
+          <div className="mb-4">
+            <h2 className="text-lg font-bold text-slate-900">
+              Feedback Overview
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Current feedback workflow status.
+            </p>
+          </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-slate-500">
-                Total Feedback
-              </p>
+            {[
+              {
+                label: "Total Feedback",
+                value: metrics.total,
+              },
+              {
+                label: "New",
+                value: metrics.status.new,
+              },
+              {
+                label: "Reviewed",
+                value: metrics.status.reviewed,
+              },
+              {
+                label: "Actioned",
+                value: metrics.status.actioned,
+              },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <p className="text-sm font-medium text-slate-500">
+                  {item.label}
+                </p>
 
-              <p className="mt-2 text-3xl font-bold text-slate-900">
-                {metrics.total}
-              </p>
-            </div>
+                <p className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
+                  {item.value}
+                </p>
 
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-slate-500">
-                New
-              </p>
-
-              <p className="mt-2 text-3xl font-bold text-slate-900">
-                {metrics.status.new}
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-slate-500">
-                Reviewed
-              </p>
-
-              <p className="mt-2 text-3xl font-bold text-slate-900">
-                {metrics.status.reviewed}
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-slate-500">
-                Actioned
-              </p>
-
-              <p className="mt-2 text-3xl font-bold text-slate-900">
-                {metrics.status.actioned}
-              </p>
-            </div>
+                <div className="mt-4 h-1 w-10 rounded-full bg-slate-900 transition-all group-hover:w-16" />
+              </div>
+            ))}
           </div>
         </section>
 
         {/* Sentiment */}
         <section className="mb-8">
-          <h2 className="mb-4 text-xl font-semibold text-slate-900">
-            Sentiment
-          </h2>
+          <div className="mb-4">
+            <h2 className="text-lg font-bold text-slate-900">
+              Sentiment
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Feedback sentiment after analysis.
+            </p>
+          </div>
 
           <div className="grid gap-4 sm:grid-cols-3">
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-slate-500">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+              <p className="text-sm font-medium text-slate-500">
                 Positive
               </p>
-
-              <p className="mt-2 text-3xl font-bold text-slate-900">
+              <p className="mt-3 text-3xl font-bold text-emerald-600">
                 {metrics.sentiment.positive}
               </p>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-slate-500">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+              <p className="text-sm font-medium text-slate-500">
                 Neutral
               </p>
-
-              <p className="mt-2 text-3xl font-bold text-slate-900">
+              <p className="mt-3 text-3xl font-bold text-slate-600">
                 {metrics.sentiment.neutral}
               </p>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-slate-500">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+              <p className="text-sm font-medium text-slate-500">
                 Negative
               </p>
-
-              <p className="mt-2 text-3xl font-bold text-slate-900">
+              <p className="mt-3 text-3xl font-bold text-rose-600">
                 {metrics.sentiment.negative}
               </p>
             </div>
           </div>
         </section>
-        <InsightsPanel />
-      <DashboardCharts metrics={metrics} />
-        {/* Account Information */}
+
+        {/* Insights */}
+        <section className="mb-8">
+          <InsightsPanel />
+        </section>
+
+        {/* Analytics */}
+        <section className="mb-8">
+          <DashboardCharts metrics={metrics} />
+        </section>
+
+        {/* Workspace */}
         <section>
-          <h2 className="mb-4 text-xl font-semibold text-slate-900">
-            Workspace
-          </h2>
+          <div className="mb-4">
+            <h2 className="text-lg font-bold text-slate-900">
+              Workspace
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Account and workspace information.
+            </p>
+          </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-slate-500">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                 Workspace ID
               </p>
 
-              <p className="mt-2 break-all font-semibold text-slate-900">
+              <p className="mt-3 break-all font-mono text-xs leading-5 text-slate-700">
                 {session.user.workspaceId}
               </p>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-slate-500">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                 Role
               </p>
 
-              <p className="mt-2 font-semibold text-slate-900">
-                {session.user.role}
-              </p>
+              <div className="mt-3">
+                <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700">
+                  {session.user.role}
+                </span>
+              </div>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-slate-500">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                 Account
               </p>
 
-              <p className="mt-2 break-all font-semibold text-slate-900">
+              <p className="mt-3 break-all text-sm font-semibold text-slate-700">
                 {session.user.email}
               </p>
             </div>
           </div>
         </section>
-
-        {/* Feedback Link */}
-        <div className="mt-8">
-          <a
-            href="/dashboard/feedback"
-            className="inline-flex rounded-lg bg-slate-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
-          >
-            View All Feedback →
-          </a>
-        </div>
       </div>
     </main>
   );
