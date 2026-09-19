@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-
+import { generateGeminiText } from "@/lib/gemini";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/permissions";
 import { createAuditLog } from "@/lib/audit";
@@ -131,7 +131,70 @@ function generateMockThemes(
 
   return themes.slice(0, 3);
 }
+async function generateGeminiThemes(
+  content: string
+): Promise<ExtractedTheme[]> {
+  const response = await generateGeminiText(
+    `
+Analyze the following customer feedback and identify up to 3 important themes.
 
+Return ONLY a JSON array using exactly this structure:
+
+[
+  {
+    "name": "Customer Support",
+    "description": "Feedback related to customer support and service response.",
+    "color": "#3B82F6",
+    "confidence": 0.92
+  }
+]
+
+Rules:
+- Return between 1 and 3 themes.
+- Each theme must describe a meaningful topic in the feedback.
+- "name" must be concise and specific.
+- "description" must explain what the theme represents.
+- "color" must be a valid 6-digit hexadecimal color beginning with #.
+- "confidence" must be a number between 0 and 1.
+- Do not invent themes that are unrelated to the feedback.
+- Return only valid JSON.
+- Do not use markdown.
+- Do not include explanations outside the JSON array.
+
+Customer feedback:
+${content}
+    `.trim(),
+    {
+      systemInstruction:
+        "You are a customer feedback theme extraction system. Identify meaningful themes grounded strictly in the provided feedback and return only valid JSON.",
+      temperature: 0.2,
+    }
+  );
+
+  let parsed: unknown;
+
+  try {
+    parsed = JSON.parse(response);
+  } catch {
+    throw new Error(
+      "Gemini returned invalid theme JSON"
+    );
+  }
+
+  const validated = z
+    .array(extractedThemeSchema)
+    .min(1)
+    .max(3)
+    .safeParse(parsed);
+
+  if (!validated.success) {
+    throw new Error(
+      "Gemini returned an invalid theme extraction result"
+    );
+  }
+
+  return validated.data;
+}
 export async function POST(
   request: Request,
   context: {
@@ -260,7 +323,7 @@ export async function POST(
     });
     return NextResponse.json({
       message:
-        "Themes extracted successfully",
+        "Themes extracted successfully with Gemini",
       themes: savedThemes.map((item) => ({
         id: item.theme.id,
         name: item.theme.name,

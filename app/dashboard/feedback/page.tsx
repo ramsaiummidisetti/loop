@@ -94,63 +94,166 @@ export default function FeedbackListPage() {
     event.preventDefault();
     loadFeedback(1);
   }
+    return (
+      <main className="min-h-screen bg-slate-50 px-4 py-8 text-slate-950 sm:px-6">
+        <div className="mx-auto max-w-7xl">
 
-  return (
-  <main className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6">
-    <div className="mx-auto max-w-7xl">
+        {/* Header */}
+    <header className="mb-7 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <div className="relative">
+        <div className="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-indigo-100 blur-3xl" />
+        <div className="absolute -bottom-20 right-32 h-40 w-40 rounded-full bg-blue-100 blur-3xl" />
 
-      {/* Page Header */}
-      <header className="mb-7 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <div className="mb-2 flex items-center gap-2">
-              <span className="rounded-md bg-slate-900 px-2.5 py-1 text-xs font-bold tracking-wide text-white">
+        <div className="relative flex flex-col gap-5 p-5 sm:p-6">
+          
+          {/* Top Navigation */}
+          <div className="flex items-center justify-between gap-4">
+            
+            {/* LOOP Logo */}
+            <Link
+              href="/dashboard"
+              className="flex shrink-0 items-center gap-3"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-600 text-sm font-bold text-white shadow-lg shadow-blue-600/20">
+                L
+              </div>
+
+              <div className="hidden sm:block">
+                <p className="text-sm font-bold tracking-wide text-slate-950">
+                  LOOP
+                </p>
+
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                  Feedback Intelligence
+                </p>
+              </div>
+            </Link>
+
+            {/* Navigation */}
+            <nav className="hidden items-center gap-1 lg:flex">
+              <Link
+                href="/dashboard"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-blue-50 hover:text-blue-600"
+              >
+                Dashboard
+              </Link>
+
+              <Link
+                href="/dashboard/feedback"
+                className="rounded-lg bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-600"
+              >
+                Feedback
+              </Link>
+
+              <Link
+                href="/dashboard/feedback#semantic-search"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-violet-50 hover:text-violet-600"
+              >
+                Search
+              </Link>
+
+              <Link
+                href="/dashboard#insights"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-indigo-50 hover:text-indigo-600"
+              >
+                Insights
+              </Link>
+            </nav>
+
+            {/* Add Feedback */}
+            <Link
+              href="/feedback/new"
+              className="inline-flex shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-indigo-200 transition hover:-translate-y-0.5 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
+            >
+              + Add Feedback
+            </Link>
+          </div>
+
+          {/* Mobile Navigation */}
+          <nav className="flex gap-1 overflow-x-auto border-t border-slate-100 pt-4 lg:hidden">
+            <Link
+              href="/dashboard"
+              className="whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-blue-50 hover:text-blue-600"
+            >
+              Dashboard
+            </Link>
+
+            <Link
+              href="/dashboard/feedback"
+              className="whitespace-nowrap rounded-lg bg-blue-50 px-3 py-2 text-xs font-bold text-blue-600"
+            >
+              Feedback
+            </Link>
+
+            <Link
+              href="/dashboard/feedback#semantic-search"
+              className="whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-violet-50 hover:text-violet-600"
+            >
+              Search
+            </Link>
+
+            <Link
+              href="/dashboard#insights"
+              className="whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-indigo-50 hover:text-indigo-600"
+            >
+              Insights
+            </Link>
+          </nav>
+
+          {/* Page Title */}
+          <div className="pt-1">
+            <div className="mb-3 flex items-center gap-2">
+              <span className="rounded-lg bg-gradient-to-br from-blue-600 to-violet-600 px-3 py-1.5 text-xs font-black tracking-wide text-white shadow-md">
                 LOOP
               </span>
 
-              <span className="text-xs font-medium uppercase tracking-wider text-slate-400">
+              <span className="text-xs font-bold uppercase tracking-wider text-indigo-500">
                 Feedback Intelligence
               </span>
             </div>
 
-            <h1 className="text-3xl font-bold tracking-tight text-slate-950">
-              Feedback
+            <h1 className="text-3xl font-black tracking-tight sm:text-4xl">
+              Feedback Inbox
             </h1>
 
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
               Search, review, analyze, and manage customer feedback from your
               workspace.
             </p>
           </div>
-
-          <Link
-            href="/feedback/new"
-            className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
-          >
-            + Add Feedback
-          </Link>
         </div>
-      </header>
-
-      {/* Feedback Tools */}
-      <div className="mb-7 space-y-4">
-        <FeedbackImport onImportComplete={() => loadFeedback(1)} />
-
-        <BulkEmbedding />
-
-        <SemanticSearch />
       </div>
+    </header>
+
+      {/* AI Tools */}
+      <div
+          id="semantic-search"
+          className="mb-7 space-y-4 scroll-mt-24"
+        >
+          <FeedbackImport onImportComplete={() => loadFeedback(1)} />
+
+          <BulkEmbedding />
+
+          <SemanticSearch />
+        </div>
 
       {/* Search & Filters */}
-      <section className="mb-7 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="mb-5">
-          <h2 className="text-base font-semibold text-slate-950">
-            Search & Filters
-          </h2>
+      <section className="mb-7 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="mb-5 flex items-start gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-indigo-100 text-lg">
+            🔎
+          </div>
 
-          <p className="mt-1 text-sm text-slate-500">
-            Narrow down feedback by content, source, workflow status, or sentiment.
-          </p>
+          <div>
+            <h2 className="text-base font-bold text-slate-950">
+              Search & Filters
+            </h2>
+
+            <p className="mt-1 text-sm text-slate-500">
+              Narrow down feedback by content, source, workflow status, or
+              sentiment.
+            </p>
+          </div>
         </div>
 
         <form
@@ -161,7 +264,7 @@ export default function FeedbackListPage() {
           <div>
             <label
               htmlFor="search"
-              className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500"
+              className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500"
             >
               Search feedback
             </label>
@@ -172,7 +275,7 @@ export default function FeedbackListPage() {
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Search feedback, customer, reference..."
-              className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:bg-white focus:border-slate-500 focus:bg-white focus:ring-4 focus:ring-slate-100"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:bg-white focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
             />
           </div>
 
@@ -180,7 +283,7 @@ export default function FeedbackListPage() {
           <div>
             <label
               htmlFor="channel"
-              className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500"
+              className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500"
             >
               Source
             </label>
@@ -189,7 +292,7 @@ export default function FeedbackListPage() {
               id="channel"
               value={channel}
               onChange={(event) => setChannel(event.target.value)}
-              className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-700 outline-none transition hover:border-slate-400 focus:border-slate-500 focus:ring-4 focus:ring-slate-100"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-700 outline-none transition hover:border-indigo-300 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
             >
               <option value="">All sources</option>
               <option value="web">Web</option>
@@ -204,7 +307,7 @@ export default function FeedbackListPage() {
           <div>
             <label
               htmlFor="status"
-              className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500"
+              className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500"
             >
               Status
             </label>
@@ -213,7 +316,7 @@ export default function FeedbackListPage() {
               id="status"
               value={status}
               onChange={(event) => setStatus(event.target.value)}
-              className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-700 outline-none transition hover:border-slate-400 focus:border-slate-500 focus:ring-4 focus:ring-slate-100"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-700 outline-none transition hover:border-indigo-300 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
             >
               <option value="">All statuses</option>
               <option value="NEW">New</option>
@@ -226,7 +329,7 @@ export default function FeedbackListPage() {
           <div>
             <label
               htmlFor="sentiment"
-              className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500"
+              className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500"
             >
               Sentiment
             </label>
@@ -235,7 +338,7 @@ export default function FeedbackListPage() {
               id="sentiment"
               value={sentiment}
               onChange={(event) => setSentiment(event.target.value)}
-              className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-700 outline-none transition hover:border-slate-400 focus:border-slate-500 focus:ring-4 focus:ring-slate-100"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-700 outline-none transition hover:border-indigo-300 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
             >
               <option value="">All sentiments</option>
               <option value="POS">Positive</option>
@@ -244,11 +347,11 @@ export default function FeedbackListPage() {
             </select>
           </div>
 
-          {/* Search Button */}
+          {/* Search */}
           <div className="flex items-end">
             <button
               type="submit"
-              className="w-full rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 lg:w-auto"
+              className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-indigo-100 transition hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 lg:w-auto"
             >
               Search
             </button>
@@ -260,31 +363,39 @@ export default function FeedbackListPage() {
       {error && (
         <div
           role="alert"
-          className="mb-7 flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700"
+          className="mb-7 flex items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50 px-5 py-4 text-sm text-rose-700"
         >
-          <span className="font-semibold">Error</span>
+          <span className="font-bold">Error</span>
           <span>{error}</span>
         </div>
       )}
 
       {/* Feedback List */}
-      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
 
         {/* List Header */}
-        <div className="flex flex-col gap-2 border-b border-slate-200 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 border-b border-slate-200 bg-gradient-to-r from-white to-slate-50 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div>
-            <h2 className="text-base font-semibold text-slate-950">
-              Feedback Inbox
-            </h2>
+            <div className="flex items-center gap-2">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+                💬
+              </div>
 
-            <p className="mt-1 text-sm text-slate-500">
+              <h2 className="text-base font-bold text-slate-950">
+                Customer Feedback
+              </h2>
+            </div>
+
+            <p className="mt-2 text-sm text-slate-500">
               {pagination.total}{" "}
-              {pagination.total === 1 ? "feedback entry" : "feedback entries"}
+              {pagination.total === 1
+                ? "feedback entry"
+                : "feedback entries"}
             </p>
           </div>
 
           {!loading && pagination.total > 0 && (
-            <span className="inline-flex w-fit items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+            <span className="inline-flex w-fit items-center rounded-full bg-indigo-50 px-3 py-1.5 text-xs font-bold text-indigo-700">
               Page {pagination.page} of {pagination.totalPages}
             </span>
           )}
@@ -293,9 +404,9 @@ export default function FeedbackListPage() {
         {/* Loading */}
         {loading ? (
           <div className="px-5 py-16 text-center">
-            <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-slate-900" />
+            <div className="mx-auto mb-4 h-9 w-9 animate-spin rounded-full border-2 border-indigo-100 border-t-indigo-600" />
 
-            <p className="text-sm font-medium text-slate-700">
+            <p className="text-sm font-semibold text-slate-700">
               Loading feedback
             </p>
 
@@ -306,11 +417,11 @@ export default function FeedbackListPage() {
         ) : feedback.length === 0 ? (
           /* Empty State */
           <div className="px-5 py-16 text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-lg">
-              —
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-violet-50 text-xl">
+              💬
             </div>
 
-            <h3 className="mt-4 text-base font-semibold text-slate-900">
+            <h3 className="mt-4 text-base font-bold text-slate-900">
               No feedback found
             </h3>
 
@@ -321,41 +432,39 @@ export default function FeedbackListPage() {
 
             <Link
               href="/feedback/new"
-              className="mt-5 inline-flex items-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800"
+              className="mt-5 inline-flex items-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-sm font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
             >
               + Add Feedback
             </Link>
           </div>
         ) : (
           /* Feedback Items */
-          <div className="divide-y divide-slate-200">
+          <div className="divide-y divide-slate-100">
             {feedback.map((item) => (
               <article
                 key={item.id}
-                className="group p-5 transition hover:bg-slate-50 sm:p-6"
+                className="group p-5 transition hover:bg-gradient-to-r hover:from-blue-50/40 hover:to-violet-50/30 sm:p-6"
               >
                 <Link
                   href={`/dashboard/feedback/${item.id}`}
-                  className="block rounded-lg outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2"
+                  className="block rounded-xl outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
                 >
                   <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
 
                     <div className="min-w-0 flex-1">
-
                       {/* Content */}
-                      <p className="text-base font-medium leading-7 text-slate-900 transition group-hover:text-slate-950">
+                      <p className="text-base font-semibold leading-7 text-slate-900">
                         {item.content}
                       </p>
 
                       {/* Badges */}
                       <div className="mt-4 flex flex-wrap gap-2">
-
-                        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold capitalize text-slate-700">
+                        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold capitalize text-slate-700">
                           {item.channel}
                         </span>
 
                         <span
-                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                          className={`rounded-full px-2.5 py-1 text-xs font-bold ${
                             item.status === "NEW"
                               ? "bg-blue-50 text-blue-700"
                               : item.status === "REVIEWED"
@@ -368,7 +477,7 @@ export default function FeedbackListPage() {
 
                         {item.sentiment && (
                           <span
-                            className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                            className={`rounded-full px-2.5 py-1 text-xs font-bold ${
                               item.sentiment === "POS"
                                 ? "bg-emerald-50 text-emerald-700"
                                 : item.sentiment === "NEG"
@@ -385,7 +494,7 @@ export default function FeedbackListPage() {
                         )}
 
                         {item.sentimentScore !== null && (
-                          <span className="rounded-full bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-500">
+                          <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-bold text-indigo-600">
                             Score {(item.sentimentScore * 100).toFixed(0)}%
                           </span>
                         )}
@@ -395,7 +504,7 @@ export default function FeedbackListPage() {
                       <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-500">
                         {item.customerLabel && (
                           <span>
-                            <span className="font-medium text-slate-600">
+                            <span className="font-semibold text-slate-600">
                               Customer:
                             </span>{" "}
                             {item.customerLabel}
@@ -404,7 +513,7 @@ export default function FeedbackListPage() {
 
                         {item.sourceRef && (
                           <span>
-                            <span className="font-medium text-slate-600">
+                            <span className="font-semibold text-slate-600">
                               Reference:
                             </span>{" "}
                             {item.sourceRef}
@@ -417,8 +526,8 @@ export default function FeedbackListPage() {
                       </div>
                     </div>
 
-                    {/* View Action */}
-                    <div className="flex shrink-0 items-center text-sm font-semibold text-slate-400 transition group-hover:text-slate-900">
+                    {/* View */}
+                    <div className="flex shrink-0 items-center text-sm font-bold text-slate-400 transition group-hover:text-indigo-600">
                       View details
                       <span className="ml-2 transition-transform group-hover:translate-x-1">
                         →
@@ -433,23 +542,23 @@ export default function FeedbackListPage() {
 
         {/* Pagination */}
         {pagination.totalPages > 1 && (
-          <div className="flex flex-col gap-3 border-t border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-3 border-t border-slate-200 bg-slate-50/50 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <button
               type="button"
               disabled={pagination.page <= 1 || loading}
               onClick={() => loadFeedback(pagination.page - 1)}
-              className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-40"
             >
               ← Previous
             </button>
 
             <p className="text-center text-sm text-slate-500">
               Page{" "}
-              <span className="font-semibold text-slate-900">
+              <span className="font-bold text-slate-900">
                 {pagination.page}
               </span>{" "}
               of{" "}
-              <span className="font-semibold text-slate-900">
+              <span className="font-bold text-slate-900">
                 {pagination.totalPages}
               </span>
             </p>
@@ -460,7 +569,7 @@ export default function FeedbackListPage() {
                 pagination.page >= pagination.totalPages || loading
               }
               onClick={() => loadFeedback(pagination.page + 1)}
-              className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Next →
             </button>

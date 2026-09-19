@@ -17,6 +17,10 @@ type AnalyzeSentimentButtonProps = {
   feedbackId: string;
   initialSentiment: Sentiment | null;
   initialScore: number | null;
+  onAnalysisComplete?: (
+    sentiment: Sentiment,
+    score: number
+  ) => void;
 };
 
 function getSentimentLabel(
@@ -36,6 +40,7 @@ export default function AnalyzeSentimentButton({
   feedbackId,
   initialSentiment,
   initialScore,
+  onAnalysisComplete,
 }: AnalyzeSentimentButtonProps) {
   const [sentiment, setSentiment] =
     useState<Sentiment | null>(initialSentiment);
@@ -103,12 +108,18 @@ export default function AnalyzeSentimentButton({
         );
       }
 
-      setSentiment(
-        responseData.feedback.sentiment
-      );
+      const newSentiment =
+        responseData.feedback.sentiment;
 
-      setScore(
-        responseData.feedback.sentimentScore
+      const newScore =
+        responseData.feedback.sentimentScore;
+
+      setSentiment(newSentiment);
+      setScore(newScore);
+
+      onAnalysisComplete?.(
+        newSentiment,
+        newScore
       );
     } catch (err) {
       setError(

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
+import { generateGeminiText } from "@/lib/gemini";
 
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/permissions";
@@ -78,36 +78,12 @@ function generateMockSentiment(
   };
 }
 
-async function analyzeWithClaude(
+async function analyzeWithGemini(
   content: string
 ): Promise<SentimentResult> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-
-  if (!apiKey) {
-    throw new Error(
-      "Anthropic API key is not configured"
-    );
-  }
-
-  const anthropic = new Anthropic({
-    apiKey,
-  });
-
-  const response = await anthropic.messages.create({
-    model:
-      process.env.ANTHROPIC_MODEL ??
-      "claude-haiku-4-5-20251001",
-
-    max_tokens: 100,
-
-    system:
-      "You analyze customer feedback sentiment. Return only valid JSON.",
-
-    messages: [
-      {
-        role: "user",
-        content: `
-Analyze the sentiment of this customer feedback.
+  const response = await generateGeminiText(
+    `
+Analyze the sentiment of the following customer feedback.
 
 Return exactly this JSON structure:
 
@@ -117,36 +93,30 @@ Return exactly this JSON structure:
 }
 
 Rules:
-- sentiment must be POS, NEU, or NEG
-- score must be between 0 and 1
+- sentiment must be exactly POS, NEU, or NEG
+- score must be a number between 0 and 1
 - score represents confidence
+- return only JSON
 - do not include markdown
 - do not include explanations
 
 Customer feedback:
 ${content}
-        `.trim(),
-      },
-    ],
-  });
-
-  const textBlock = response.content.find(
-    (block) => block.type === "text"
+    `.trim(),
+    {
+      systemInstruction:
+        "You are a customer feedback sentiment analysis system. Return only valid JSON matching the requested structure.",
+      temperature: 0.1,
+    }
   );
-
-  if (!textBlock || textBlock.type !== "text") {
-    throw new Error(
-      "Claude returned no text response"
-    );
-  }
 
   let parsed: unknown;
 
   try {
-    parsed = JSON.parse(textBlock.text);
+    parsed = JSON.parse(response);
   } catch {
     throw new Error(
-      "Claude returned invalid JSON"
+      "Gemini returned invalid JSON"
     );
   }
 
@@ -155,13 +125,12 @@ ${content}
 
   if (!validated.success) {
     throw new Error(
-      "Claude returned an invalid sentiment result"
+      "Gemini returned an invalid sentiment result"
     );
   }
 
   return validated.data;
 }
-
 export async function POST(
   _request: Request,
   context: {
@@ -218,15 +187,15 @@ export async function POST(
 
     let sentiment: SentimentResult;
 
-    if (aiMode === "claude") {
+        if (aiMode === "gemini") {
       try {
         sentiment =
-          await analyzeWithClaude(
+          await analyzeWithGemini(
             feedback.content
           );
       } catch (error) {
         console.error(
-          "Claude sentiment analysis error:",
+          "Gemini sentiment analysis error:",
           error
         );
 
@@ -275,8 +244,8 @@ export async function POST(
       });
     return NextResponse.json({
       message:
-        aiMode === "claude"
-          ? "Sentiment analyzed with Claude"
+        aiMode === "gemini"
+          ? "Sentiment analyzed with Gemini"
           : "Sentiment analyzed with mock AI",
 
       feedback: updatedFeedback,
